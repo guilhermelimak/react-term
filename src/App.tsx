@@ -1,5 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
+import { defaultTheme } from "./defaultTheme"
 import { Terminal } from "./Terminal"
 
 const AppContainer = styled.div`
@@ -11,11 +12,17 @@ const AppContainer = styled.div`
   align-items: center;
 `
 
+const Window = styled.div`
+  border: 4px solid ${defaultTheme.border};
+`
+
 class App extends React.Component {
   public render() {
     return (
       <AppContainer>
-        <Terminal />
+        <Window>
+          <Terminal />
+        </Window>
       </AppContainer>
     )
   }

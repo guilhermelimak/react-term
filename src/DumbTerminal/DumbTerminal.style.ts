@@ -1,50 +1,51 @@
 import styled from "styled-components"
 
+const height = 400
+
 export const Container = styled.div`
-  border: 3px solid #309070;
+  background-color: ${props => props.theme.bg};
+  box-shadow: 5px 5px 17px 2px rgba(0, 0, 0, 0.3);
+  max-height: ${height}px;
+  min-height: ${height}px;
   overflow-y: scroll;
-  box-shadow: 0px 3px 13px 2px rgba(0, 0, 0, 0.3);
   padding: 10px;
-  width: 800px;
-  max-height: 400px;
-  min-height: 400px;
   position: relative;
-  background-color: black;
+  width: 800px;
 `
 
 export const Stdout = styled.pre`
-  font-family: "Overpass Mono", monospace;
-  color: #7df504;
+  color: ${props => props.theme.fg};
+  font-family: ${props => props.theme.font};
+  font-size: ${props => props.theme.fontSize};
   margin: 0;
-  font-size: 18px;
 `
 export const Prompt = styled.span`
-  font-family: "Overpass Mono", monospace;
-  background-color: black;
+  background-color: ${props => props.theme.bg};
+  border: none;
+  color: ${props => props.theme.fg};
+  font-family: ${props => props.theme.font};
+  font-size: ${props => props.theme.fontSize};
+  outline: none;
   user-select: none;
   white-space: pre;
-  border: none;
-  color: #7df504;
-  outline: none;
-  font-size: 18px;
 `
 
 export const Input = styled.input`
-  font-family: "Overpass Mono", monospace;
-  background-color: black;
+  background-color: ${props => props.theme.bg};
+  border: none;
+  color: ${props => props.theme.fg};
+  font-family: ${props => props.theme.font};
+  font-size: ${props => props.theme.fontSize};
   margin: 0;
+  outline: none;
   padding: 0;
   user-select: none;
   width: 100%;
-  border: none;
-  color: #7df504;
-  outline: none;
-  font-size: 18px;
 `
 
 export const InputContainer = styled.div`
-  width: 100%;
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
 `

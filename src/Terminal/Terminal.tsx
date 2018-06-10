@@ -1,5 +1,6 @@
 import * as React from "react"
 import { commands } from "../commands"
+import { defaultTheme } from "../defaultTheme"
 import { DumbTerminal } from "../DumbTerminal"
 import { ICommand } from "../models/Command"
 import { scrollStdoutToBottom } from "../util"
@@ -66,9 +67,7 @@ class Terminal extends React.Component<{}, ITerminalState> {
         ? this.state.commandHistory.length - 1
         : (this.state.historyIdx as any) - 1
 
-    if (historyIdx < 0) {
-      return
-    }
+    if (historyIdx < 0) return
 
     this.setState({
       ...this.state,
@@ -80,9 +79,7 @@ class Terminal extends React.Component<{}, ITerminalState> {
   private async historyNext() {
     const historyIdx = this.state.historyIdx === null ? null : (this.state.historyIdx as any) + 1
 
-    if (historyIdx > this.state.commandHistory.length - 1) {
-      return
-    }
+    if (historyIdx > this.state.commandHistory.length - 1) return
 
     await this.setState({
       ...this.state,
@@ -119,7 +116,11 @@ class Terminal extends React.Component<{}, ITerminalState> {
     const { stdout, command, prompt } = this.state
     const { handleChange, handleKeyDown } = this
 
-    return <DumbTerminal {...{ stdout, command, prompt, handleChange, handleKeyDown }} />
+    return (
+      <DumbTerminal
+        {...{ stdout, command, prompt, handleChange, handleKeyDown, theme: defaultTheme }}
+      />
+    )
   }
 }
 
