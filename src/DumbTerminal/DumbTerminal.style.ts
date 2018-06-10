@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const height = 400
+const height = 401
 
 export const Container = styled.div`
   background-color: ${props => props.theme.bg};

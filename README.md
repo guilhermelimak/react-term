@@ -6,8 +6,8 @@ Simple terminal made in react to be used inside the browser, maybe useful for ga
 
 ### Features
 
-* [ ] Command history
-* [ ] `DownArrow` and `UpArrow` to go backward and forward on command history
+* [x] Command history
+* [x] `DownArrow` and `UpArrow` to go backward and forward on command history
 * [x] `Ctrl-o` and enter submit the command
 * [x] `Ctrl-l` clear terminal screen
 * [ ] `Ctrl-a` Go to beginning of the line
