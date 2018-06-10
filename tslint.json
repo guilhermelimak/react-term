@@ -3,6 +3,7 @@
   "rules": {
     "no-console": false,
     "member-ordering": false,
+    "curly": false,
     "object-literal-sort-keys": false
   },
   "linterOptions": {

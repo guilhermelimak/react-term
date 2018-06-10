@@ -1,6 +1,10 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
+  border: 3px solid #309070;
+  overflow-y: scroll;
+  box-shadow: 0px 3px 13px 2px rgba(0, 0, 0, 0.3);
+  padding: 10px;
   width: 800px;
   max-height: 400px;
   min-height: 400px;
@@ -10,9 +14,7 @@ export const Container = styled.div`
 
 export const Stdout = styled.pre`
   font-family: "Overpass Mono", monospace;
-  max-height: 400px;
   color: #7df504;
-  overflow-y: scroll;
   margin: 0;
   font-size: 18px;
 `

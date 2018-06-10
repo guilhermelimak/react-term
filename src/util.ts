@@ -1,6 +1,3 @@
-export const shouldSubmit = (evt: any) =>
-  evt.key.toUpperCase() === "ENTER" || (evt.key === "o" && evt.ctrlKey)
-
 export const tail = (arr: any[]) => arr.filter((_, idx) => idx !== 0)
 
 export const isFunction = (obj: any) =>
@@ -11,7 +8,7 @@ export const panic = () => {
 }
 
 export const scrollStdoutToBottom = () => {
-  const stdout = document.getElementsByClassName("terminal__stdout")[0]
+  const stdout = document.getElementsByClassName("terminal__container")[0]
 
   if (!stdout) {
     panic()

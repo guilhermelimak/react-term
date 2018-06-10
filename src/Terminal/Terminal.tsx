@@ -1,41 +1,101 @@
 import * as React from "react"
 import { commands } from "../commands"
 import { DumbTerminal } from "../DumbTerminal"
-import { isFunction, scrollStdoutToBottom, shouldSubmit, tail } from "../util"
+import { ICommand } from "../models/Command"
+import { scrollStdoutToBottom } from "../util"
+import { runCommand } from "./runCommand"
 
 interface ITerminalState {
   command: string
   commandHistory: string[]
   stdout: string[]
+  commandsList: ICommand[]
   prompt: string
-}
-
-const runCommand = (input: string[]) => {
-  const trimmedInput = input.map(i => i.trim()).filter(i => !!i)
-  const cmd = commands.find(c => c.name === trimmedInput[0])
-
-  if (!cmd || !cmd.handler) {
-    return `Command "${trimmedInput.join(" ")}" not recognized`
-  }
-
-  if (!isFunction(cmd.handler)) {
-    return `Handler for command "${trimmedInput.join(" ")} is not a function`
-  }
-
-  return cmd.handler({ commands, args: tail(trimmedInput) })
+  historyIdx: number | null
 }
 
 class Terminal extends React.Component<{}, ITerminalState> {
   public state = {
     command: "",
+    commandsList: commands,
     commandHistory: [],
     stdout: [],
-    prompt: " $ "
+    prompt: " $ ",
+    historyIdx: null
   }
 
   get commandWithPrompt() {
     return `${this.state.prompt}${this.state.command}`
   }
+
+  private async submitCommand() {
+    const { command, commandsList, commandHistory } = this.state
+
+    if (!command) {
+      return
+    }
+
+    await this.setState({ commandHistory: [...commandHistory, command] })
+    await this.print(this.commandWithPrompt)
+    await this.print(` ${runCommand(command.split(" "), commandsList)}`)
+    this.resetPrompt()
+    scrollStdoutToBottom()
+  }
+
+  private handleKeyDown = (evt: any) => {
+    if (evt.key.toUpperCase() === "ENTER") {
+      this.submitCommand()
+      return
+    }
+
+    if (evt.ctrlKey) {
+      evt.preventDefault()
+
+      if (evt.key === "l") this.clear()
+      if (evt.key === "c") this.resetPrompt()
+      if (evt.key === "o") this.submitCommand()
+    }
+
+    if (evt.key === "ArrowDown") this.historyNext()
+    if (evt.key === "ArrowUp") this.historyPrev()
+  }
+
+  private async historyPrev() {
+    const historyIdx =
+      this.state.historyIdx === null
+        ? this.state.commandHistory.length - 1
+        : (this.state.historyIdx as any) - 1
+
+    if (historyIdx < 0) {
+      return
+    }
+
+    this.setState({
+      ...this.state,
+      historyIdx,
+      command: this.state.commandHistory[historyIdx]
+    })
+  }
+
+  private async historyNext() {
+    const historyIdx = this.state.historyIdx === null ? null : (this.state.historyIdx as any) + 1
+
+    if (historyIdx > this.state.commandHistory.length - 1) {
+      return
+    }
+
+    await this.setState({
+      ...this.state,
+      historyIdx,
+      command: this.state.commandHistory[historyIdx]
+    })
+  }
+
+  private clear = () =>
+    this.setState({
+      ...this.state,
+      stdout: []
+    })
 
   private print = (line: string) =>
     this.setState({
@@ -43,39 +103,13 @@ class Terminal extends React.Component<{}, ITerminalState> {
       stdout: [...this.state.stdout, line]
     })
 
-  public resetPrompt = () =>
+  public resetPrompt = (command: string = "") =>
     this.setState({
       ...this.state,
-      command: ""
+      command
     })
 
-  private async submitCommand() {
-    const { command } = this.state
-
-    if (!command) {
-      return
-    }
-
-    await this.setState({ commandHistory: [...this.state.commandHistory, this.state.command] })
-    await this.print(this.commandWithPrompt)
-    await this.print(` ${runCommand(this.state.command.split(" "))}`)
-    this.resetPrompt()
-    scrollStdoutToBottom()
-  }
-
-  private handleKeyDown = (evt: any) => {
-    // allow ctrl c and v to work but also dont
-    // pass ctrl o and ctrl p (and others) to the browser
-    if (evt.ctrlKey && evt.key !== "v" && evt.key !== "c") {
-      evt.preventDefault()
-    }
-
-    if (shouldSubmit(evt)) {
-      this.submitCommand()
-    }
-  }
-
-  private handleInput = (evt: any) =>
+  private handleChange = (evt: any) =>
     this.setState({
       ...this.state,
       command: evt.target.value
@@ -83,9 +117,9 @@ class Terminal extends React.Component<{}, ITerminalState> {
 
   public render() {
     const { stdout, command, prompt } = this.state
-    const { handleInput, handleKeyDown } = this
+    const { handleChange, handleKeyDown } = this
 
-    return <DumbTerminal {...{ stdout, command, prompt, handleInput, handleKeyDown }} />
+    return <DumbTerminal {...{ stdout, command, prompt, handleChange, handleKeyDown }} />
   }
 }
 

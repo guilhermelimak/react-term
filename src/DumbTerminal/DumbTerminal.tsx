@@ -7,14 +7,12 @@ interface IDumbTerminalProps {
   command: string
   prompt: string
   handleKeyDown: (evt: any) => void
-  handleInput: (evt: any) => void
+  handleChange: (evt: any) => void
 }
 
 const DumbTerminal = (props: IDumbTerminalProps) => (
-  <Container onClick={focusInput}>
-    <Stdout className="terminal__stdout">
-      {props.stdout.map((line, idx) => <div key={idx}>{line}</div>)}
-    </Stdout>
+  <Container onClick={focusInput} className="terminal__container">
+    <Stdout>{props.stdout.map((line, idx) => <div key={idx}>{line}</div>)}</Stdout>
     <InputContainer>
       <Prompt>{props.prompt}</Prompt>
       <Input
@@ -22,7 +20,7 @@ const DumbTerminal = (props: IDumbTerminalProps) => (
         className="terminal__input"
         value={props.command}
         onKeyDown={props.handleKeyDown}
-        onChange={props.handleInput}
+        onChange={props.handleChange}
       />
     </InputContainer>
   </Container>
