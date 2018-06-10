@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ThemeProvider } from "styled-components"
-import { focusInput } from "../util"
+import { focusInput } from "../../util"
 import { Container, Input, InputContainer, Prompt, Stdout } from "./DumbTerminal.style"
 
 interface IDumbTerminalProps {

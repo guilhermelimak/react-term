@@ -1,9 +1,9 @@
 import * as React from "react"
-import { commands } from "../commands"
-import { defaultTheme } from "../defaultTheme"
+import { commands } from "../../commands"
+import { defaultTheme } from "../../defaultTheme"
+import { ICommand } from "../../models/Command"
+import { scrollStdoutToBottom } from "../../util"
 import { DumbTerminal } from "../DumbTerminal"
-import { ICommand } from "../models/Command"
-import { scrollStdoutToBottom } from "../util"
 import { runCommand } from "./runCommand"
 
 interface ITerminalState {
@@ -39,6 +39,7 @@ class Terminal extends React.Component<{}, ITerminalState> {
     await this.setState({ commandHistory: [...commandHistory, command] })
     await this.print(this.commandWithPrompt)
     await this.print(` ${runCommand(command.split(" "), commandsList)}`)
+
     this.resetPrompt()
     scrollStdoutToBottom()
   }

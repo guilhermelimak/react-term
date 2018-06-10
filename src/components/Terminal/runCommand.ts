@@ -1,5 +1,5 @@
-import { ICommand } from "../models/Command"
-import { isFunction, tail } from "../util"
+import { ICommand } from "../../models/Command"
+import { isFunction, tail } from "../../util"
 
 export const runCommand = (input: string[], commands: ICommand[]) => {
   const trimmedInput = input.map(i => i.trim()).filter(i => !!i)
