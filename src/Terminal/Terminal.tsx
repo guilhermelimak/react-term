@@ -58,7 +58,7 @@ class Terminal extends React.Component<{}, ITerminalState> {
 
     await this.setState({ commandHistory: [...this.state.commandHistory, this.state.command] })
     await this.print(this.commandWithPrompt)
-    await this.print(runCommand(this.state.command.split(" ")))
+    await this.print(` ${runCommand(this.state.command.split(" "))}`)
     this.resetPrompt()
     scrollStdoutToBottom()
   }

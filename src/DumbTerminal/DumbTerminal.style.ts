@@ -9,6 +9,7 @@ export const Container = styled.div`
 `
 
 export const Stdout = styled.pre`
+  font-family: "Overpass Mono", monospace;
   max-height: 400px;
   color: #7df504;
   overflow-y: scroll;
@@ -16,7 +17,7 @@ export const Stdout = styled.pre`
   font-size: 18px;
 `
 export const Prompt = styled.span`
-  font-family: "monospace";
+  font-family: "Overpass Mono", monospace;
   background-color: black;
   user-select: none;
   white-space: pre;
@@ -27,7 +28,7 @@ export const Prompt = styled.span`
 `
 
 export const Input = styled.input`
-  font-family: "monospace";
+  font-family: "Overpass Mono", monospace;
   background-color: black;
   margin: 0;
   padding: 0;
